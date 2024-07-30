@@ -8,7 +8,7 @@ function toXolntor(date) {
 	
 	let yearG = DATE.getFullYear();
 	let yearX = yearG - 2019;
-	if (currentDay < 85) {
+	if (currentDay < 84) {
 		yearX -= 1;
 	}
 	
@@ -18,11 +18,11 @@ function toXolntor(date) {
 		yearX = yearX + " EX"
 	}
 	
-	let monthX = Math.floor((currentDay + 63) / 74);
+	let monthX = Math.floor((currentDay + 64) / 74);
 	if (leapYear(DATE.getFullYear()) == true) {
-		monthX = Math.floor((currentDay + 62) / 74);
-	} else {
 		monthX = Math.floor((currentDay + 63) / 74);
+	} else {
+		monthX = Math.floor((currentDay + 64) / 74);
 	}
 	let monthText = "-1";
 

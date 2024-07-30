@@ -56,7 +56,7 @@ if (dayX == 0) {
 		dayX = 73;
 }
 
-xoln.innerHTML = dayX.toString() + " " + monthText + " " + yearX + " EX";
+xoln.innerHTML = dayX.toString() + " " + monthText + " " + yearX;
 greg.innerHTML = date.getDate() + " " + date.toLocaleString("default", {month:"long"}) + " " + date.getFullYear();
 
 function leapYear(year)

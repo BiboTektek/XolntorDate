@@ -13,10 +13,24 @@ if (currentDay < 85) {
 	yearX -= 1;
 }
 
+if (yearX < 1) {
+	yearX = Math.abs(yearX) + 1 + " NX";
+} else {
+	yearX = yearX + " EX"
+}
+
 let monthX = Math.floor((currentDay + 63) / 74);
+if (leapYear(DATE.getFullYear()) == true) {
+	monthX = Math.floor((currentDay + 62) / 74);
+} else {
+	monthX = Math.floor((currentDay + 63) / 74);
+}
 let monthText = "-1";
 
 switch(monthX) {
+	case 0:
+		monthText = "Dêxalt";
+		break;
 	case 1:
 		monthText = "Naichalt";
 		break;
@@ -34,9 +48,12 @@ switch(monthX) {
 		break;
 }
 
-let dayX = ((currentDay - 12) % 73) + 1;
-if (leapYear(date.getFullYear()) == true) {
+let dayX = ((currentDay + 135) % 73) + 1;
+if (leapYear(date.getFullYear()) == true && currentDay !== 60) {
 	dayX -= 1;
+}
+if (dayX == 0) {
+		dayX = 73;
 }
 
 xoln.innerHTML = dayX.toString() + " " + monthText + " " + yearX + " EX";

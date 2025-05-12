@@ -3,7 +3,7 @@ function trueMod(a, b) {
 }
 
 function isLeap(year) {
-	return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+	return ((trueMod(year, 4) == 0) && (trueMod(year, 100) != 0)) || (trueMod(year, 400) == 0);
 }
 
 function xDayTrue(year, month, day) {

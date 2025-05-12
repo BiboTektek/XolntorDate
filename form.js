@@ -1,62 +1,68 @@
+function trueMod(a, b) {
+	return ((a % b) + b) % b;
+}
+
+function isLeap(year) {
+	return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
+function xDayTrue(year, month, day) {
+	if (year > 0) {
+		if (isLeap(year + 2020) == false || month[0] <= 4) {
+			return trueMod(day - 1, 73) + 1;
+		} else if (month[0] == 5) {
+			return trueMod(day - 292, 75);
+		}
+	} else {
+		if (isLeap(year + 2021) == false || month[0] <= 4) {
+			if (day == 0) {
+				return 1;
+			} else {
+				return trueMod(day - 1, 73) + 1;
+			}
+		} else if (month[0] == 5) {
+			return trueMod(day - 292, 75);
+		}
+	}
+}
+
+function xMonth(day) {
+	if (0 <= day && day <= 73) {
+		return [1, "Flŷr"];
+	}
+	if (74 <= day && day <= 146) {
+		return [2, "Hôd"];
+	}
+	if (147 <= day && day <= 219) {
+		return [3, "Xalôd"];
+	}
+	if (220 <= day && day <= 292) {
+		return [4, "Dêxalt"];
+	}
+	if (293 <= day && day <= 366) {
+		return [5, "Naichalt"];
+	}
+}
+
 function toXolntor(date) {
 	let DATE = new Date(date);
+	const oneDay = 1000 * 86400;
 	
-	let start = new Date(DATE.getFullYear(), 0, 0);
-	let diff = DATE - start + ((start.getTimezoneOffset() - DATE.getTimezoneOffset()) * 60 * 1000);
-	const oneDay = 1000 * 60 * 60 * 24;
-	let currentDay = Math.floor(diff / oneDay);
+	let start = new Date("2019-03-26");
+	let diff = (DATE - start) / oneDay;
+	console.log(diff);
 	
-	let yearG = DATE.getFullYear();
-	let yearX = yearG - 2019;
-	if (currentDay < 84) {
+	let yearX = Math.floor(diff / 365.2425);
+	if (yearX <= 0) {
 		yearX -= 1;
 	}
 	
-	if (yearX < 1) {
-		yearX = Math.abs(yearX) + 1 + " NX";
-	} else {
-		yearX = yearX + " EX"
-	}
+	let dayX = Math.ceil(trueMod(diff, 365.2425));
 	
-	let monthX = Math.floor((currentDay + 64) / 74);
-	if (leapYear(DATE.getFullYear()) == true) {
-		monthX = Math.floor((currentDay + 63) / 74);
-	} else {
-		monthX = Math.floor((currentDay + 64) / 74);
-	}
-	let monthText = "-1";
-
-	switch(monthX) {
-		case 0:
-			monthText = "Dêxalt";
-			break;
-		case 1:
-			monthText = "Naichalt";
-			break;
-		case 2:
-			monthText = "Flŷr";
-			break;
-		case 3:
-			monthText = "Hômid";
-			break;
-		case 4:
-			monthText = "Flŷrxalt";
-			break;
-		case 5:
-			monthText = "Dêxalt";
-			break;
-	}
-	
-	let dayX = ((currentDay + 135) % 73) + 1;
-	if (leapYear(DATE.getFullYear()) == true && currentDay !== 60) {
-		dayX -= 1;
-	}
-	if (dayX == 0) {
-		dayX = 73;
-	}
-	
-	console.log(dayX, monthX, yearX);
-	return dayX.toString() + " " + monthText + " " + yearX;
+	console.log(xDayTrue(Math.floor(diff / 365.2425), xMonth(dayX), dayX));
+	console.log(xMonth(dayX)[1]);
+	console.log(yearX);
+	return xDayTrue(yearX, xMonth(dayX), dayX).toString() + " " + xMonth(dayX)[1] + " " + yearX.toString();
 }
 
 function formFunc(event) {
